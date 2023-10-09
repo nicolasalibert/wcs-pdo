@@ -2,6 +2,7 @@
 require_once 'connec.php';
 
 $pdo = new \PDO(DSN, USER, PASS);
+$error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     // récupération des donneés du formulaire
@@ -19,6 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $statement->execute();
         header('Location: index.php');
         die();
+    }
+    else {
+        $error = 'Veuillez entrer un prénom ou un nom de famille correct.';
     }
 }
 
@@ -57,5 +61,9 @@ $friends = $statement->fetchAll();
             <button type="submit">Send</button>
         </div>
     </form>
+
+    <?php if (!empty($error)) {
+        echo $error;
+    } ?>
 </body>
 </html>
